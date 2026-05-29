@@ -1,0 +1,60 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "shared-lib": ["./dist/shared-lib"]
+    },
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/shared-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/student-portal/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/student-portal/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/teacher-portal/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/teacher-portal/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/admin-portal/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/admin-portal/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/management-portal/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/management-portal/tsconfig.spec.json"
+    }
+  ]
+}
