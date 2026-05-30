@@ -111,3 +111,6 @@ services:
 volumes:
   postgres_data:
   mongo_data:
+
+student-service:
+  env_file: ./services/student-service/.env.docker
