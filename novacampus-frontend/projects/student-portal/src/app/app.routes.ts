@@ -14,7 +14,7 @@ import { PaymentsComponent } from './features/admin/payments/payments.component'
 // --- Student ---
 import { TimetableComponent } from './features/student/timetable/timetable.component';
 import { GradesComponent } from './features/student/grades/grades.component';
-import { DocumentsComponent } from './features/student/documents/documents.component';
+import { DocumentsComponent } from './features/student/documents/documents.component'; // <-- FIXED
 
 // --- Teacher ---
 import { ScheduleComponent } from './features/teacher/schedule/schedule.component';
@@ -38,7 +38,7 @@ export const routes: Routes = [
   // Student Routes
   { path: 'student/timetable', component: TimetableComponent },
   { path: 'student/grades', component: GradesComponent },
-  { path: 'student/documents', component: DocumentsComponent },
+  { path: 'student/documents', component: DocumentsComponent }, // <-- FIXED
 
   // Teacher Routes
   { path: 'teacher/schedule', component: ScheduleComponent },
