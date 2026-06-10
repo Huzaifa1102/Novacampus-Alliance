@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard'; // <-- Imported your custom guard
+import { LoginComponent } from './features/auth/login/login.component';
 
 // --- Management ---
 import { DashboardComponent } from './features/management/dashboard/dashboard.component';
@@ -14,7 +16,7 @@ import { PaymentsComponent } from './features/admin/payments/payments.component'
 // --- Student ---
 import { TimetableComponent } from './features/student/timetable/timetable.component';
 import { GradesComponent } from './features/student/grades/grades.component';
-import { DocumentsComponent } from './features/student/documents/documents.component'; // <-- FIXED
+import { DocumentsComponent } from './features/student/documents/documents.component';
 
 // --- Teacher ---
 import { ScheduleComponent } from './features/teacher/schedule/schedule.component';
@@ -23,28 +25,32 @@ import { AttendanceComponent } from './features/teacher/attendance/attendance.co
 
 export const routes: Routes = [
   { path: '', redirectTo: 'management/dashboard', pathMatch: 'full' },
-  
-  // Management Routes
+  { path: 'login', component: LoginComponent },
+
+  // Management Routes (Left unguarded for platform overview analytics)
   { path: 'management/dashboard', component: DashboardComponent },
   { path: 'management/campus', component: CampusComponent },
   { path: 'management/alerts', component: StrategicAlertsComponent },
   
-  // Admin Routes
-  { path: 'admin/register', component: StudentRegistrationComponent },
-  { path: 'admin/students/:id', component: StudentFileComponent },
-  { path: 'admin/scheduling', component: RoomSchedulingComponent },
-  { path: 'admin/payments', component: PaymentsComponent },
+  // Admin Routes (Secured with your 'admin' role evaluation)
+  { path: 'admin/register', component: StudentRegistrationComponent, canActivate: [authGuard('admin')] },
+  { path: 'admin/students/:id', component: StudentFileComponent, canActivate: [authGuard('admin')] },
+  { path: 'admin/scheduling', component: RoomSchedulingComponent, canActivate: [authGuard('admin')] },
+  { path: 'admin/payments', component: PaymentsComponent, canActivate: [authGuard('admin')] },
 
-  // Student Routes
-  { path: 'student/timetable', component: TimetableComponent },
-  { path: 'student/grades', component: GradesComponent },
-  { path: 'student/documents', component: DocumentsComponent }, // <-- FIXED
+  // Student Routes (Secured with your 'student' role evaluation)
+  { path: 'student/timetable', component: TimetableComponent, canActivate: [authGuard('student')] },
+  { path: 'student/grades', component: GradesComponent, canActivate: [authGuard('student')] },
+  { path: 'student/documents', component: DocumentsComponent, canActivate: [authGuard('student')] },
 
-  // Teacher Routes
-  { path: 'teacher/schedule', component: ScheduleComponent },
-  { path: 'teacher/grading', component: GradingComponent },
-  { path: 'teacher/attendance', component: AttendanceComponent },
+  // Teacher Routes (Secured with your 'teacher' role evaluation)
+  { path: 'teacher/schedule', component: ScheduleComponent, canActivate: [authGuard('teacher')] },
+  { path: 'teacher/grading', component: GradingComponent, canActivate: [authGuard('teacher')] },
+  { path: 'teacher/attendance', component: AttendanceComponent, canActivate: [authGuard('teacher')] },
   
+  // Temporary login path to capture your guard's redirect safely for now
+  { path: 'login', component: DashboardComponent },
+
   // Fallback
   { path: '**', redirectTo: 'management/dashboard' }
 ];

@@ -1,63 +1,99 @@
 <div class="flex h-screen bg-surface font-sans text-text-main overflow-hidden">
   
-  <aside class="w-64 bg-brand-dark text-white flex flex-col transition-all duration-300">
-    <div class="h-16 flex items-center justify-center border-b border-white/10">
-      <span class="text-xl font-bold tracking-wider">NovaCampus</span>
+  <aside [class]="(isSidebarOpen ? 'flex fixed inset-y-0 left-0 z-50' : 'hidden lg:flex') + ' w-64 bg-brand-dark text-white flex-col transition-all duration-300'">
+    <div class="h-16 flex items-center justify-between px-4 border-b border-white/10">
+      <span class="text-xl font-bold tracking-wider mx-auto lg:mx-0">NovaCampus</span>
+      <button (click)="closeSidebar()" class="lg:hidden p-2 hover:bg-white/10 rounded-md">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
     </div>
     
-    <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-8 custom-scrollbar">
+    <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-8 custom-scrollbar" (click)="closeSidebar()">
       
-      <div>
-        <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Management</p>
-        <div class="space-y-1">
-          <a href="/management/dashboard" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">KPI Dashboard</a>
-          <a href="/management/campus" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Campus Directory</a>
-          <a href="/management/alerts" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Strategic Alerts</a>
-          <a href="/admin/scheduling" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Room Logistics</a>
-          <a href="/admin/payments" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Financial Ledger</a>
-          <a href="/admin/register" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Register Student</a>
+      @if (currentRole() === 'management' || currentRole() === 'admin') {
+        <div>
+          <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Management</p>
+          <div class="space-y-1">
+            <a routerLink="/management/dashboard" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">KPI Dashboard</a>
+            <a routerLink="/management/campus" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Campus Directory</a>
+            <a routerLink="/management/alerts" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Strategic Alerts</a>
+          </div>
         </div>
-      </div>
+      }
 
-      <div>
-        <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Teacher Portal</p>
-        <div class="space-y-1">
-          <a href="/teacher/schedule" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">My Schedule</a>
-          <a href="/teacher/grading" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Grade Entry</a>
-          <a href="/teacher/attendance" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Log Attendance</a>
+      @if (currentRole() === 'admin') {
+        <div>
+          <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Admin Panel</p>
+          <div class="space-y-1">
+            <a routerLink="/admin/register" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Register Student</a>
+            <a routerLink="/admin/scheduling" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Room Logistics</a>
+            <a routerLink="/admin/payments" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Payments</a>
+          </div>
         </div>
-      </div>
+      }
 
-      <div>
-        <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Student Portal</p>
-        <div class="space-y-1">
-          <a href="/student/timetable" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Timetable</a>
-          <a href="/student/grades" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Grades & Absences</a>
-          <a href="/student/documents" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">My Documents</a>
-          <a href="/admin/students/123" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Profile View (Demo)</a>
+      @if (currentRole() === 'teacher') {
+        <div>
+          <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Teacher Portal</p>
+          <div class="space-y-1">
+            <a routerLink="/teacher/schedule" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">My Schedule</a>
+            <a routerLink="/teacher/grading" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Grade Entry</a>
+            <a routerLink="/teacher/attendance" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Log Attendance</a>
+          </div>
         </div>
-      </div>
+      }
+
+      @if (currentRole() === 'student') {
+        <div>
+          <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Student Workspace</p>
+          <div class="space-y-1">
+            <a routerLink="/student/timetable" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Timetable</a>
+            <a routerLink="/student/grades" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">Grades & Absences</a>
+            <a routerLink="/student/documents" routerLinkActive="bg-white/10" class="block px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-sm">My Documents</a>
+          </div>
+        </div>
+      }
 
     </nav>
   </aside>
 
+  <div *ngIf="isSidebarOpen" (click)="closeSidebar()" class="lg:hidden absolute inset-0 bg-black/50 z-40"></div>
+
   <div class="flex-1 flex flex-col overflow-hidden">
     
     <header class="h-16 bg-white border-b border-border-light flex items-center justify-between px-6 shadow-sm">
-      <div class="flex items-center text-text-muted">
-        <span class="text-sm font-medium">Platform Overview</span>
-      </div>
+      
       <div class="flex items-center gap-4">
-        <button class="text-text-muted hover:text-brand-primary transition-colors">
+        <button (click)="toggleSidebar()" class="lg:hidden p-2 text-text-muted hover:text-brand-dark" aria-label="Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <span class="text-sm font-medium text-text-muted">Platform Overview</span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        
+        <button class="text-text-muted hover:text-brand-dark transition-colors" aria-label="Notifications">
            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
         </button>
-        <div class="w-8 h-8 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold shadow-sm cursor-pointer hover:bg-brand-dark transition-colors">
-          A
+        
+        <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold shadow-sm uppercase">
+          {{ currentRole() ? currentRole()?.charAt(0) : 'U' }}
         </div>
-      </div>
-    </header>
 
-    <main class="flex-1 overflow-y-auto p-6 bg-surface">
+        <button (click)="logout()" 
+          class="text-sm font-semibold text-red-600 hover:text-red-800 flex items-center gap-1 transition-colors px-2 py-1 rounded-md hover:bg-red-50" 
+          aria-label="Logout Session">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          <span class="hidden sm:inline">Logout</span>
+        </button>
+
+      </div>
+
+    </header>
+    
+    <main class="flex-1 overflow-y-auto p-6 bg-surface z-0 relative">
       <div class="max-w-7xl mx-auto">
         <router-outlet></router-outlet>
       </div>
@@ -65,3 +101,5 @@
 
   </div>
 </div>
+
+<app-chatbot></app-chatbot>
