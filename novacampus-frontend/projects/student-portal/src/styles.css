@@ -1,0 +1,14 @@
+/* 1. Import the exact font weights used in your Figma (Regular, Medium, Bold) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 2. Load Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Apply your Figma defaults to the entire application */
+@layer base {
+  body {
+    @apply bg-surface text-text-main font-sans antialiased;
+  }
+}
