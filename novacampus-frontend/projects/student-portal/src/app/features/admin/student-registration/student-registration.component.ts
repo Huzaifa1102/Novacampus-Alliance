@@ -1,118 +1,121 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-student-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="max-w-4xl mx-auto space-y-6 animate-fade-in font-sans">
       
-      <div>
-        <h1 class="text-2xl font-bold text-text-main">Student Registration</h1>
-        <p class="text-sm text-text-muted mt-1">Enroll a new student into the Novacampus system.</p>
+      <div class="pb-5 border-b border-slate-200">
+        <h2 class="text-2xl font-bold text-slate-800">Student Registration</h2>
+        <p class="mt-1 text-sm text-slate-500">Enter the new student's details to provision their NovaCampus account.</p>
       </div>
 
-      <div *ngIf="isSubmitted" class="bg-green-50 border border-green-200 text-green-800 rounded-xl p-4 flex items-center space-x-3 shadow-sm transition-all duration-300">
-        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-        <span class="font-medium">Student successfully registered! Redirecting to profile...</span>
+      <div *ngIf="isSubmitted" class="p-4 rounded-md bg-emerald-50 border border-emerald-200 flex items-start gap-3">
+        <svg class="w-5 h-5 text-emerald-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <h3 class="text-sm font-medium text-emerald-800">Successfully Registered</h3>
+          <p class="mt-1 text-sm text-emerald-700">The student profile has been created and welcome emails have been dispatched.</p>
+          <button (click)="resetForm()" class="mt-3 text-sm font-medium text-emerald-600 hover:text-emerald-500">Register another student &rarr;</button>
+        </div>
       </div>
 
-      <form *ngIf="!isSubmitted" (ngSubmit)="onSubmit()" class="bg-white rounded-xl border border-border-light shadow-sm overflow-hidden">
+      <form *ngIf="!isSubmitted" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
         
-        <div class="p-6 md:p-8 space-y-6">
-          <h2 class="text-lg font-semibold text-text-main border-b border-border-light pb-2">Personal Information</h2>
+        <div class="p-6 sm:p-8 space-y-8">
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-1.5">
-              <label class="block text-sm font-medium text-text-main">First Name <span class="text-red-500">*</span></label>
-              <input type="text" [(ngModel)]="formData.firstName" name="firstName" required
-                class="w-full px-4 py-2.5 rounded-lg border border-border-light bg-surface focus:bg-white focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-all duration-200" 
-                placeholder="Jean">
-            </div>
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-slate-900 mb-4">Personal Information</h3>
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              
+              <div>
+                <label for="firstName" class="block text-sm font-medium text-slate-700">First Name</label>
+                <input type="text" id="firstName" formControlName="firstName" class="mt-1 block w-full rounded-md border border-slate-300 py-2 px-3 shadow-sm focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark sm:text-sm transition-colors" placeholder="Jane">
+              </div>
 
-            <div class="space-y-1.5">
-              <label class="block text-sm font-medium text-text-main">Last Name <span class="text-red-500">*</span></label>
-              <input type="text" [(ngModel)]="formData.lastName" name="lastName" required
-                class="w-full px-4 py-2.5 rounded-lg border border-border-light bg-surface focus:bg-white focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-all duration-200" 
-                placeholder="Dupont">
-            </div>
+              <div>
+                <label for="lastName" class="block text-sm font-medium text-slate-700">Last Name</label>
+                <input type="text" id="lastName" formControlName="lastName" class="mt-1 block w-full rounded-md border border-slate-300 py-2 px-3 shadow-sm focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark sm:text-sm transition-colors" placeholder="Doe">
+              </div>
 
-            <div class="space-y-1.5 md:col-span-2">
-              <label class="block text-sm font-medium text-text-main">Email Address <span class="text-red-500">*</span></label>
-              <input type="email" [(ngModel)]="formData.email" name="email" required
-                class="w-full px-4 py-2.5 rounded-lg border border-border-light bg-surface focus:bg-white focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-all duration-200" 
-                placeholder="jean.dupont@novacampus.fr">
+              <div class="sm:col-span-2">
+                <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                <input type="email" id="email" formControlName="email" class="mt-1 block w-full rounded-md border border-slate-300 py-2 px-3 shadow-sm focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark sm:text-sm transition-colors" placeholder="jane.doe@example.com">
+              </div>
             </div>
           </div>
 
-          <h2 class="text-lg font-semibold text-text-main border-b border-border-light pb-2 mt-8">Academic Details</h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-1.5">
-              <label class="block text-sm font-medium text-text-main">Assigned Campus</label>
-              <select [(ngModel)]="formData.campus" name="campus"
-                class="w-full px-4 py-2.5 rounded-lg border border-border-light bg-surface focus:bg-white focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-all duration-200 cursor-pointer">
-                <option value="Paris">Paris - Main</option>
-                <option value="Lyon">Lyon - Tech Hub</option>
-                <option value="Strasbourg">Strasbourg - East</option>
-              </select>
-            </div>
+          <hr class="border-slate-200">
 
-            <div class="space-y-1.5">
-              <label class="block text-sm font-medium text-text-main">Program of Study</label>
-              <select [(ngModel)]="formData.program" name="program"
-                class="w-full px-4 py-2.5 rounded-lg border border-border-light bg-surface focus:bg-white focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-all duration-200 cursor-pointer">
-                <option value="WebDev">Advanced Web Development</option>
-                <option value="SoftwareArch">Software Architecture</option>
-                <option value="DevOps">DevOps & CI/CD</option>
-              </select>
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-slate-900 mb-4">Academic Details</h3>
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              
+              <div>
+                <label for="major" class="block text-sm font-medium text-slate-700">Declared Major</label>
+                <select id="major" formControlName="major" class="mt-1 block w-full rounded-md border border-slate-300 py-2 px-3 shadow-sm focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark sm:text-sm transition-colors bg-white">
+                  <option value="" disabled selected>Select a program...</option>
+                  <option value="cs">Computer Science</option>
+                  <option value="engineering">Mechanical Engineering</option>
+                  <option value="business">Business Administration</option>
+                  <option value="arts">Liberal Arts</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="enrollmentYear" class="block text-sm font-medium text-slate-700">Enrollment Year</label>
+                <input type="number" id="enrollmentYear" formControlName="enrollmentYear" class="mt-1 block w-full rounded-md border border-slate-300 py-2 px-3 shadow-sm focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark sm:text-sm transition-colors">
+              </div>
+
             </div>
           </div>
         </div>
 
-        <div class="bg-surface px-6 py-4 border-t border-border-light flex justify-end space-x-3">
-          <button type="button" class="px-5 py-2.5 text-sm font-medium text-text-muted hover:text-text-main hover:bg-white border border-transparent hover:border-border-light rounded-lg transition-colors">
-            Cancel
+        <div class="bg-slate-50 px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-200">
+          <button type="button" (click)="registrationForm.reset()" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-dark transition-colors">
+            Clear Form
           </button>
-          
-          <button type="submit" 
-            [disabled]="isProcessing"
-            class="flex items-center justify-center px-6 py-2.5 text-sm font-bold text-white bg-brand-primary hover:bg-brand-dark rounded-lg shadow-sm transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed">
-            
-            <svg *ngIf="isProcessing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            
-            {{ isProcessing ? 'Saving...' : 'Complete Registration' }}
+          <button type="submit" [disabled]="!registrationForm.valid" class="px-4 py-2 text-sm font-medium text-white bg-brand-dark border border-transparent rounded-md shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-dark disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors">
+            Register Student
           </button>
         </div>
       </form>
 
     </div>
-  `
+  `,
+  styles: [`
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  `]
 })
 export class StudentRegistrationComponent {
-  
-  formData = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    campus: 'Paris',
-    program: 'WebDev'
-  };
-
-  isProcessing = false;
+  registrationForm: FormGroup;
   isSubmitted = false;
 
+  constructor(private fb: FormBuilder) {
+    // Initialize the form with validation rules
+    this.registrationForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      major: ['', Validators.required],
+      enrollmentYear: [new Date().getFullYear(), [Validators.required, Validators.min(2020)]]
+    });
+  }
+
   onSubmit() {
-    this.isProcessing = true;
-    setTimeout(() => {
-      this.isProcessing = false;
+    if (this.registrationForm.valid) {
+      console.log('Form Submitted Data:', this.registrationForm.value);
+      // Here is where your friend will hook up the API POST request tomorrow!
       this.isSubmitted = true;
-      console.log('Registration Data Sent to Database:', this.formData);
-    }, 1500);
+    }
+  }
+
+  resetForm() {
+    this.isSubmitted = false;
+    this.registrationForm.reset({ enrollmentYear: new Date().getFullYear() });
   }
 }
