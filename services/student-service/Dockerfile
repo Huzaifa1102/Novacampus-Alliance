@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy package files first (layer caching — only reinstalls if package.json changes)
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy TypeScript config and source
 COPY tsconfig.json ./
@@ -15,4 +15,4 @@ RUN npm run build
 
 EXPOSE 3001
 
-CMD ["node", "dist/server.ts"]
+CMD ["node", "dist/server.js"]

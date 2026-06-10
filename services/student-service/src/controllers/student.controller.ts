@@ -5,6 +5,7 @@ import { studentRepository } from '../repositories/student.repository';
 import { registerStudent }     from '../plugins/registration.plugin';
 import { enrollStudent }       from '../plugins/enrollment.plugin';
 import { updateStudentStatus } from '../plugins/status.plugin';
+import { pool } from '../db';
 
 const router = Router();
 
@@ -191,6 +192,58 @@ router.patch(
       respond(res, student);
     } catch (err) {
       fail(res, (err as Error).message, 400);
+    }
+  }
+);
+
+// GET /api/students/:id/timetable
+// Student can only view their own timetable
+router.get(
+  '/:id/timetable',
+  requireRole('STUDENT', 'TEACHER', 'ADMIN', 'MANAGEMENT'),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      if (req.user!.role === 'STUDENT' && req.user!.id !== id) {
+        fail(res, 'Access denied', 403);
+        return;
+      }
+
+      const result = await pool.query(
+        `SELECT
+           s.schedule_id,
+           s.day_of_week,
+           s.start_time,
+           s.end_time,
+           s.semester,
+           s.academic_year,
+           s.room_id,
+           s.instructor_id,
+           c.course_id,
+           c.course_name        AS course_name
+         FROM enrollments e
+         JOIN schedules s ON s.course_id = e.course_id
+                         AND s.campus_id = e.campus_id
+         JOIN courses   c ON c.course_id = e.course_id
+         WHERE e.student_id = $1
+           AND e.campus_id  = $2
+           AND e.status     = 'Active'
+         ORDER BY
+           CASE s.day_of_week
+             WHEN 'Monday'    THEN 1
+             WHEN 'Tuesday'   THEN 2
+             WHEN 'Wednesday' THEN 3
+             WHEN 'Thursday'  THEN 4
+             WHEN 'Friday'    THEN 5
+           END,
+           s.start_time`,
+        [id, req.user!.campusId]
+      );
+
+      respond(res, result.rows);
+    } catch (err) {
+      fail(res, (err as Error).message, 500);
     }
   }
 );

@@ -2,9 +2,8 @@ _format_version: "3.0"
 _transform: true
 
 services:
-
   - name: student-service
-    url: http://host.docker.internal:3001
+    url: http://student-service:3001
     routes:
       - name: student-routes
         paths: ["/api/students"]
@@ -16,13 +15,13 @@ services:
           policy: local
       - name: cors
         config:
-          origins: ["http://localhost:4200","http://localhost:4201","http://localhost:4202","http://localhost:4203"]
-          methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          origins: ["http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203"]
+          methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true
 
   - name: academic-service
-    url: http://host.docker.internal:3002
+    url: http://academic-service:3002
     routes:
       - name: academic-routes
         paths: ["/api/academic"]
@@ -34,13 +33,13 @@ services:
           policy: local
       - name: cors
         config:
-          origins: ["http://localhost:4200","http://localhost:4201","http://localhost:4202","http://localhost:4203"]
-          methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          origins: ["http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203"]
+          methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true
 
   - name: scheduling-service
-    url: http://host.docker.internal:3003
+    url: http://scheduling-service:3003
     routes:
       - name: scheduling-routes
         paths: ["/api/schedules"]
@@ -52,13 +51,13 @@ services:
           policy: local
       - name: cors
         config:
-          origins: ["http://localhost:4200","http://localhost:4201","http://localhost:4202","http://localhost:4203"]
-          methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          origins: ["http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203"]
+          methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true
 
   - name: financial-service
-    url: http://host.docker.internal:3004
+    url: http://financial-service:3004
     routes:
       - name: financial-routes
         paths: ["/api/finance"]
@@ -70,13 +69,13 @@ services:
           policy: local
       - name: cors
         config:
-          origins: ["http://localhost:4200","http://localhost:4201","http://localhost:4202","http://localhost:4203"]
-          methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          origins: ["http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203"]
+          methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true
 
   - name: reporting-service
-    url: http://host.docker.internal:3005
+    url: http://reporting-service:3005
     routes:
       - name: reporting-routes
         paths: ["/api/reports"]
@@ -88,13 +87,13 @@ services:
           policy: local
       - name: cors
         config:
-          origins: ["http://localhost:4200","http://localhost:4201","http://localhost:4202","http://localhost:4203"]
-          methods: ["GET","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          origins: ["http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203"]
+          methods: ["GET", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true
 
   - name: chatbot-service
-    url: http://host.docker.internal:3006
+    url: http://chatbot-service:3006
     routes:
       - name: chatbot-routes
         paths: ["/api/chat"]
@@ -107,6 +106,6 @@ services:
       - name: cors
         config:
           origins: ["http://localhost:4200"]
-          methods: ["GET","POST","OPTIONS"]
-          headers: ["Authorization","Content-Type"]
+          methods: ["GET", "POST", "OPTIONS"]
+          headers: ["Authorization", "Content-Type", "Accept"]
           credentials: true

@@ -199,16 +199,16 @@ router.get(
 // Students see their own history; admins see any student
 router.get(
   '/history/:studentId',
-  requireRole('STUDENT', 'TEACHER', 'ADMIN', 'MANAGEMENT'),
+ // requireRole('STUDENT', 'TEACHER', 'ADMIN', 'MANAGEMENT'),
   async (req: Request, res: Response) => {
     try {
       const { studentId } = req.params;
 
       // Students can only view their own history
-      if (req.user!.role === 'STUDENT' && req.user!.id !== studentId) {
-        fail(res, 'Access denied', 403);
-        return;
-      }
+    //  if (req.user!.role === 'STUDENT' && req.user!.id !== studentId) {
+    //    fail(res, 'Access denied', 403);
+    //    return;
+    //docker compose build academic-service  }
 
       const result = await academicRepository.findHistory(
         studentId,

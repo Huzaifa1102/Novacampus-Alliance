@@ -1,16 +1,15 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
-export const authGuard = (allowedRole: string) => {
-  return () => {
-    const router = inject(Router);
-    const userRole = localStorage.getItem('user_role'); // Placeholder for JWT decode
+export const authGuard = (allowedRoles: string | string[]) => () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  const role = auth.getRole();
+  const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
-    if (userRole === allowedRole) {
-      return true;
-    }
-    
-    // Redirect to login if not authorized
-    return router.parseUrl('/login');
-  };
+  if (role && roles.includes(role)) {
+    return true;
+  }
+  return router.createUrlTree(['/login']);
 };

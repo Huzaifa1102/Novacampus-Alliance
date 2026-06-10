@@ -49,7 +49,6 @@ export const routes: Routes = [
   { path: 'teacher/attendance', component: AttendanceComponent, canActivate: [authGuard('teacher')] },
   
   // Temporary login path to capture your guard's redirect safely for now
-  { path: 'login', component: DashboardComponent },
 
   // Fallback
   { path: '**', redirectTo: 'management/dashboard' }

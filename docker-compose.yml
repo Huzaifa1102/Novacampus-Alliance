@@ -1,5 +1,3 @@
-
-
 services:
 
   # ─── DATABASES ───────────────────────────────────────────
@@ -63,7 +61,7 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     volumes:
-    - ./auth/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - ./auth/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     ports:
       - "8080:8080"
 
@@ -108,9 +106,30 @@ services:
     depends_on:
       - prometheus
 
+  # ─── MICROSERVICES ───────────────────────────────────────
+  student-service:
+    build: ./services/student-service
+    container_name: nca_student_service
+    restart: unless-stopped
+    env_file: ./services/student-service/.env.docker
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  academic-service:
+    build:
+      context: ./services/academic-service
+    container_name: nca_academic_service
+    environment:
+      - DATABASE_URL=postgresql://novacampus:novacampus123@postgres:5432/novacampus_db
+      - PORT=3002
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
   mongo_data:
-
-student-service:
-  env_file: ./services/student-service/.env.docker

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-timetable',
@@ -24,68 +25,41 @@ import { CommonModule } from '@angular/common';
       </div>
 
       <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-        
         <div class="overflow-x-auto custom-scrollbar">
           <div class="min-w-[800px] p-4">
-            
             <div class="grid grid-cols-[80px_repeat(5,_1fr)] gap-3">
               
               <div class="text-xs font-semibold text-slate-400 uppercase text-right pr-4 pt-2">Time</div>
-              <div class="text-center font-bold text-slate-700 pb-2 border-b-2 border-brand-dark">Monday</div>
-              <div class="text-center font-bold text-slate-700 pb-2 border-b-2 border-slate-100">Tuesday</div>
-              <div class="text-center font-bold text-slate-700 pb-2 border-b-2 border-brand-dark">Wednesday</div>
-              <div class="text-center font-bold text-slate-700 pb-2 border-b-2 border-slate-100">Thursday</div>
-              <div class="text-center font-bold text-slate-700 pb-2 border-b-2 border-slate-100">Friday</div>
-
-              <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-3">08:00</div>
-              <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-blue-900">Advanced Algorithms</p>
-                <p class="text-[10px] text-blue-700 mt-1">Room A-102 • Dr. Smith</p>
-              </div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-emerald-900">Database Systems</p>
-                <p class="text-[10px] text-emerald-700 mt-1">Room B-404 • Prof. Davis</p>
-              </div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-blue-900">Advanced Algorithms</p>
-                <p class="text-[10px] text-blue-700 mt-1">Room A-102 • Dr. Smith</p>
+              <div *ngFor="let day of days" class="text-center font-bold text-slate-700 pb-2 border-b-2 border-slate-100">
+                {{day}}
               </div>
 
-              <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-3">10:00</div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-purple-900">Web Engineering</p>
-                <p class="text-[10px] text-purple-700 mt-1">Lab 3 • Ms. Taylor</p>
-              </div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-purple-900">Web Engineering</p>
-                <p class="text-[10px] text-purple-700 mt-1">Lab 3 • Ms. Taylor</p>
-              </div>
-              <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-amber-900">Cybersecurity</p>
-                <p class="text-[10px] text-amber-700 mt-1">Room C-201 • Dr. Lee</p>
-              </div>
+              <ng-container *ngFor="let time of morningTimes">
+                <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-3">{{time}}</div>
+                <ng-container *ngFor="let day of days">
+                  <div *ngIf="gridMap[day + '-' + time]" class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r-md shadow-sm">
+                    <p class="text-xs font-bold text-blue-900">{{gridMap[day + '-' + time].course_name}}</p>
+                    <p class="text-[10px] text-blue-700 mt-1">Room {{gridMap[day + '-' + time].room_id || 'TBA'}} • Prof {{gridMap[day + '-' + time].instructor_id || 'TBA'}}</p>
+                  </div>
+                  <div *ngIf="!gridMap[day + '-' + time]" class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
+                </ng-container>
+              </ng-container>
 
               <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-2">12:00</div>
               <div class="col-span-5 bg-slate-100 rounded-md flex items-center justify-center py-2">
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Lunch Break</span>
               </div>
 
-              <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-3">14:00</div>
-              <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-amber-900">Cybersecurity</p>
-                <p class="text-[10px] text-amber-700 mt-1">Room C-201 • Dr. Lee</p>
-              </div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
-              <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded-r-md">
-                <p class="text-xs font-bold text-emerald-900">Database Systems</p>
-                <p class="text-[10px] text-emerald-700 mt-1">Room B-404 • Prof. Davis</p>
-              </div>
-              <div class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
+              <ng-container *ngFor="let time of afternoonTimes">
+                <div class="text-xs font-semibold text-slate-400 text-right pr-4 py-3">{{time}}</div>
+                <ng-container *ngFor="let day of days">
+                  <div *ngIf="gridMap[day + '-' + time]" class="bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded-r-md shadow-sm">
+                    <p class="text-xs font-bold text-emerald-900">{{gridMap[day + '-' + time].course_name}}</p>
+                    <p class="text-[10px] text-emerald-700 mt-1">Room {{gridMap[day + '-' + time].room_id || 'TBA'}} • Prof {{gridMap[day + '-' + time].instructor_id || 'TBA'}}</p>
+                  </div>
+                  <div *ngIf="!gridMap[day + '-' + time]" class="bg-slate-50 border border-slate-100 p-3 rounded-md"></div>
+                </ng-container>
+              </ng-container>
 
             </div>
           </div>
@@ -99,4 +73,38 @@ import { CommonModule } from '@angular/common';
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   `]
 })
-export class TimetableComponent {}
+export class TimetableComponent implements OnInit {
+  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
+
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  morningTimes = ['08:00', '09:00', '10:00', '11:00'];
+  afternoonTimes = ['13:00', '14:00', '15:00', '16:00', '17:00'];
+  
+  gridMap: Record<string, any> = {};
+
+  ngOnInit() {
+    this.http.get<any>('http://localhost:8000/api/students/STU001/timetable')
+      .subscribe({
+        next: (res) => this.buildGridMap(res.data || []),
+        error: (err) => console.error('Failed to load timetable', err)
+      });
+  }
+
+  buildGridMap(scheduleData: any[]) {
+    const newMap: Record<string, any> = {};
+    
+    for (const lesson of scheduleData) {
+      if (!lesson.day_of_week || !lesson.start_time) continue;
+      
+      const day = lesson.day_of_week.trim(); 
+      const time = lesson.start_time.trim().substring(0, 5); 
+      
+      const key = `${day}-${time}`; 
+      newMap[key] = lesson;
+    }
+    
+    this.gridMap = newMap;
+    this.cdr.detectChanges(); // Forces Angular to redraw the screen immediately
+  }
+}

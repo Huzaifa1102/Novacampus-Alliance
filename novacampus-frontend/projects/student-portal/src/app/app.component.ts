@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router'; // <-- Added Router here
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
 import { ChatbotComponent } from './shared/components/chatbot/chatbot.component';
 import { AuthService } from './core/services/auth.service';
@@ -12,15 +12,21 @@ import { AuthService } from './core/services/auth.service';
 })
 export class AppComponent {
   private authService = inject(AuthService);
-  private router = inject(Router); // <-- Injecting Router for navigation pipeline
+  private router = inject(Router);
   
-  readonly currentRole = this.authService.userRole;
   isSidebarOpen = false;
+
+  get currentRole() {
+    return this.authService.getRole();
+  }
+
+  get isLoginPage() {
+    return this.router.url === '/login';
+  }
 
   toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
   closeSidebar() { this.isSidebarOpen = false; }
 
-  // Clear session variables and drop back to sandbox auth
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

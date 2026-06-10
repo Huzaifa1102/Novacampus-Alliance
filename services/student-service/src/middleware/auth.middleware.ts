@@ -53,10 +53,13 @@ export function authMiddleware(
     }
 
     req.user = {
-      id:        payload.sub,
-      role:      payload.role,
-      campusId:  payload.campus_id,
-      programId: payload.program_id
+      id: payload.student_id ?? payload.sub,
+      role: (payload.realm_access?.roles ?? [])
+        .find((r: string) => ['STUDENT','TEACHER','ADMIN','MANAGEMENT']
+          .includes(r.toUpperCase()))
+        ?.toUpperCase() ?? null,
+      campusId: payload.campus_id,
+      programId: payload.program_id,
     };
 
     next();
