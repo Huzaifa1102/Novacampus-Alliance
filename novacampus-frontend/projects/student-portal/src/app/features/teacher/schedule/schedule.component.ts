@@ -22,14 +22,14 @@ interface TeachingSession {
       
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-text-main">Teaching Schedule</h1>
-          <p class="text-sm text-text-muted mt-1">Current Week: Oct 12 - Oct 16, 2026</p>
+          <h1 class="text-2xl font-bold text-slate-900">Teaching Schedule</h1>
+          <p class="text-sm text-slate-500 mt-1">Current Week: Oct 12 - Oct 16, 2026</p>
         </div>
         <div class="flex gap-2">
-           <button class="px-4 py-2 bg-white border border-border-light rounded-lg hover:bg-surface text-text-main text-sm font-semibold transition-colors shadow-sm">
+           <button class="px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-900 text-sm font-semibold transition-colors shadow-sm">
              Previous
            </button>
-           <button class="px-4 py-2 bg-brand-dark text-white rounded-lg hover:bg-brand-primary text-sm font-semibold transition-colors shadow-sm">
+           <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors shadow-sm">
              Next Week
            </button>
         </div>
@@ -38,43 +38,43 @@ interface TeachingSession {
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
         
         <div *ngFor="let day of weekDays" class="space-y-4">
-          <h2 class="font-semibold text-text-main border-b border-border-light pb-2 flex justify-between items-center">
+          <h2 class="font-semibold text-slate-900 border-b border-slate-200 pb-2 flex justify-between items-center">
             {{ day }}
-            <span class="text-xs font-normal text-text-muted bg-white border border-border-light px-2 py-0.5 rounded-full">
+            <span class="text-xs font-normal text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-full">
               {{ getSessions(day).length }} classes
             </span>
           </h2>
           
           <div *ngFor="let session of getSessions(day)"
-               class="bg-white border border-border-light rounded-xl p-4 shadow-sm hover:shadow-md transition-all border-l-4 relative group"
+               class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all border-l-4 relative group"
                [ngClass]="{
-                 'border-l-brand-primary': session.type === 'Lecture', 
-                 'border-l-brand-accent': session.type === 'Lab',
-                 'border-l-brand-dark': session.type === 'Seminar'
+                 'border-l-blue-500': session.type === 'Lecture', 
+                 'border-l-green-500': session.type === 'Lab',
+                 'border-l-purple-500': session.type === 'Seminar'
                }">
             
-            <div class="text-xs font-bold text-text-muted mb-1 flex items-center gap-1">
+            <div class="text-xs font-bold text-slate-500 mb-1 flex items-center gap-1">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               {{ session.startTime }} - {{ session.endTime }}
             </div>
             
-            <h3 class="font-bold text-text-main leading-tight">{{ session.courseCode }}</h3>
-            <p class="text-xs text-text-muted mt-0.5">{{ session.courseName }}</p>
+            <h3 class="font-bold text-slate-900 leading-tight">{{ session.courseCode }}</h3>
+            <p class="text-xs text-slate-500 mt-0.5">{{ session.courseName }}</p>
             
-            <div class="mt-3 flex items-center justify-between text-sm text-text-muted border-t border-border-light pt-3">
+            <div class="mt-3 flex items-center justify-between text-sm text-slate-500 border-t border-slate-100 pt-3">
               <div class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> 
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> 
                 {{ session.room }}
               </div>
-              <div class="flex items-center gap-1.5 font-medium text-text-main" title="Students Enrolled">
-                <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> 
+              <div class="flex items-center gap-1.5 font-medium text-slate-900" title="Students Enrolled">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> 
                 {{ session.studentCount }}
               </div>
             </div>
             
           </div>
 
-          <div *ngIf="getSessions(day).length === 0" class="text-sm text-text-muted italic p-4 bg-surface/50 rounded-xl border border-dashed border-border-light text-center">
+          <div *ngIf="getSessions(day).length === 0" class="text-sm text-slate-500 italic p-4 bg-slate-50 rounded-xl border border-dashed border-slate-200 text-center">
             No classes scheduled
           </div>
 

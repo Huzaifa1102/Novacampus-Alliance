@@ -130,6 +130,24 @@ services:
     depends_on:
       - postgres
 
+chatbot-service:
+    build:
+      context: ./services/chatbot-service
+    container_name: nca_chatbot_service
+    environment:
+      - PORT=3006
+      - PYTHONPATH=/app/src
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ACADEMIC_SERVICE_URL=http://academic-service:3002
+      - SCHEDULING_SERVICE_URL=http://scheduling-service:3003
+      - FINANCIAL_SERVICE_URL=http://financial-service:3004
+      - MONGO_URI=mongodb://mongodb:27017/novacampus
+    ports:
+      - "3006:3006"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
 volumes:
   postgres_data:
   mongo_data:

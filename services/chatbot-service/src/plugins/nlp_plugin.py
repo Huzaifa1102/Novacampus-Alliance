@@ -1,9 +1,10 @@
 import os
 import json
-from openai import OpenAI
+from openai import AsyncOpenAI
 from models.chat_models import IntentResult
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# 1. Swapped to AsyncOpenAI
+client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"), timeout = 10.0)
 
 INTENT_SYSTEM_PROMPT = """
 You are an intent classifier for a university ERP chatbot.
@@ -34,7 +35,8 @@ async def parse_intent(message: str) -> IntentResult:
         return _rule_based_fallback(message)
 
     try:
-        response = client.chat.completions.create(
+        # 2. Added the 'await' keyword here
+        response = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 { "role": "system",  "content": INTENT_SYSTEM_PROMPT },
@@ -50,12 +52,12 @@ async def parse_intent(message: str) -> IntentResult:
         return IntentResult(
             type        = parsed.get("type", "UNKNOWN"),
             entities    = parsed.get("entities", {}),
-            confidence  = parsed.get("confidence", 0.5),
+            confidence  = float(parsed.get("confidence", 0.5)),
             raw_message = message
         )
 
     except Exception as e:
-        print(f"OpenAI error: {e} — falling back to rule-based")
+        print(f"OpenAI error: {e} — falling back to rule-based", flush=True)
         return _rule_based_fallback(message)
 
 

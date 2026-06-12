@@ -30,21 +30,22 @@ import { DataTableComponent } from '../../../shared/components/data-table/data-t
     </div>
   `
 })
-export class DocumentsComponent {
+export class DocumentsComponent implements OnInit { // IMPLEMENT OnInit
+  private http = inject(HttpClient); // INJECT HTTP
   
-  docColumns = [
-    { key: 'name', label: 'Document Name', isPrimary: true },
-    { key: 'type', label: 'Type' },
-    { key: 'date', label: 'Date Added' },
-    { key: 'status', label: 'Status' }
-  ];
+  // Replace your mock array with an empty array
+  documentsList: any[] = []; // Update your HTML *ngFor to use this variable name
 
-  // Note: I wrapped the status strings in arrays so they render as nicely styled pills 
-  // based on the logic we built into DataTableComponent.
-  myDocuments = [
-    { name: 'Semester 1 Transcript', type: 'Official', date: 'Oct 12, 2026', status: ['Available'] },
-    { name: 'Student ID Card (Digital)', type: 'ID', date: 'Sep 01, 2025', status: ['Active'] },
-    { name: 'Internship Agreement', type: 'Contract', date: 'Apr 10, 2026', status: ['Signed'] },
-    { name: 'Proof of Enrollment', type: 'Letter', date: 'May 20, 2026', status: ['Pending Verification'] }
-  ];
+  ngOnInit() {
+    console.log("Fetching live documents...");
+    // Assuming your document service is on 3005 with this endpoint
+    this.http.get<any[]>('http://localhost:3005/api/documents/my') 
+      .subscribe({
+        next: (data) => {
+          console.log("Documents loaded:", data);
+          this.documentsList = data; // Binds live data to your UI
+        },
+        error: (err) => console.error("Document API Error:", err)
+      });
+  }
 }

@@ -31,7 +31,14 @@ export class AuthService {
 
   getRole(): string | null {
     const user = this.currentUser$.getValue();
-    return user?.realm_access?.roles?.[0]?.toLowerCase() ?? null;
+    const roles = user?.realm_access?.roles ?? [];
+    const normalized = roles.map(r => r.toLowerCase());
+  
+    if (normalized.includes('teacher')) return 'teacher';
+    if (normalized.includes('student')) return 'student';
+    if (normalized.includes('admin')) return 'admin';
+  
+    return null;
   }
 
   getAccessToken(): string | null {

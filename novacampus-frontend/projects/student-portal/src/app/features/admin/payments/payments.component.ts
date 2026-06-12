@@ -84,22 +84,21 @@ import { DataTableComponent } from '../../../shared/components/data-table/data-t
     </div>
   `
 })
-export class PaymentsComponent {
+export class PaymentsComponent implements OnInit { // IMPLEMENT OnInit
+  private http = inject(HttpClient); // INJECT HTTP
   
-  ledgerColumns = [
-    { key: 'invoiceId', label: 'Invoice ID' },
-    { key: 'studentName', label: 'Student', isPrimary: true },
-    { key: 'campus', label: 'Campus' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'date', label: 'Due/Paid Date' },
-    { key: 'status', label: 'Status' }
-  ];
+  // Replace your mock array with an empty array
+  paymentsList: any[] = []; // Update your HTML *ngFor to use this variable name
 
-  ledgerData = [
-    { invoiceId: 'INV-2026-892', studentName: 'Alice Dubois', campus: 'Paris', amount: '€2,500.00', date: 'Oct 12, 2026', status: ['Paid'] },
-    { invoiceId: 'INV-2026-893', studentName: 'Lucas Martin', campus: 'Lyon', amount: '€2,500.00', date: 'Oct 12, 2026', status: ['Pending'] },
-    { invoiceId: 'INV-2026-894', studentName: 'Emma Bernard', campus: 'Paris', amount: '€150.00', date: 'Oct 10, 2026', status: ['Paid'] },
-    { invoiceId: 'INV-2026-895', studentName: 'Hugo Petit', campus: 'Strasbourg', amount: '€2,500.00', date: 'Sep 30, 2026', status: ['Overdue'] },
-    { invoiceId: 'INV-2026-896', studentName: 'Jean Dupont', campus: 'Paris', amount: '€2,500.00', date: 'Oct 14, 2026', status: ['Paid'] }
-  ];
+  ngOnInit() {
+    console.log("Fetching live payments...");
+    this.http.get<any[]>('http://localhost:3004/api/finance/payments/my')
+      .subscribe({
+        next: (data) => {
+          console.log("Payments loaded:", data);
+          this.paymentsList = data; // Binds live data to your UI
+        },
+        error: (err) => console.error("Payment API Error:", err)
+      });
+  }
 }

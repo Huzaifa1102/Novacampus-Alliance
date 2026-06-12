@@ -82,13 +82,23 @@ export class LoginComponent {
       next: (res) => {
         this.auth.setAccessToken(res.access_token);
         this.auth.setRefreshToken(res.refresh_token);
+        
         const role = this.auth.getRole();
         const destinations: Record<string, string> = {
-          admin:   '/admin/scheduling',
+          admin: '/admin/scheduling',
           teacher: '/teacher/schedule',
           student: '/student/timetable',
         };
-        this.router.navigate([destinations[role ?? ''] ?? '/login']);
+      
+        const targetRoute = destinations[role ?? ''] ?? '/login';
+        
+        // Handle the navigation promise
+        this.router.navigate([targetRoute]).then((success) => {
+          if (!success) {
+            this.errorMessage.set(`Routing failed: ${targetRoute} does not exist in this portal.`);
+            this.loading.set(false); // <--- This fixes the infinite spinner
+          }
+        });
       },
       error: (err) => {
         this.loading.set(false);
