@@ -58,7 +58,7 @@ export interface RepositoryItem {
             {{ isSyncing ? 'Syncing GitHub...' : 'Sync GitHub API' }}
           </button>
           
-          <a href="https://github.com/D-A-D-group-3/novacampus-alliance" target="_blank" class="px-4 py-2.5 border border-border-light hover:bg-surface text-text-main rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm">
+          <a href="https://github.com/Huzaifa1102/Novacampus-Alliance" target="_blank" class="px-4 py-2.5 border border-border-light hover:bg-surface text-text-main rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
             Open on GitHub
           </a>
@@ -318,7 +318,7 @@ export class RepositoriesComponent implements OnInit {
   mainRepo: RepositoryItem = {
     id: '1',
     name: 'novacampus-alliance',
-    fullName: 'D-A-D-group-3/novacampus-alliance',
+    fullName: 'Huzaifa1102/Novacampus-Alliance',
     description: 'A distributed microservices-based Academic ERP for a multi-campus higher education group featuring 6 backend microservices and 4 Angular frontend portals.',
     stars: 12,
     forks: 4,
@@ -327,8 +327,8 @@ export class RepositoriesComponent implements OnInit {
     languageColor: '#3178c6',
     updatedAt: '2026-06-12',
     visibility: 'Public',
-    htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance',
-    cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+    htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance',
+    cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
     topics: ['academic-erp', 'angular-19', 'fastapi', 'microservices', 'docker', 'kong-gateway', 'keycloak'],
     lastCommitMsg: 'Pushed UI/UX enhancements and backend API integrations',
     lastCommitAuthor: 'Huzaifa1102',
@@ -350,8 +350,8 @@ export class RepositoriesComponent implements OnInit {
       languageColor: '#68a063',
       updatedAt: '2026-06-10',
       visibility: 'Internal',
-      htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance/tree/main/services/academic-service',
-      cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+      htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance/tree/main/services/academic-service',
+      cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
       topics: ['express', 'postgresql', 'prisma-orm', 'grading-plugin'],
       lastCommitMsg: 'Refactored attendance plugin and grade calculation logic',
       lastCommitAuthor: 'Huzaifa1102',
@@ -369,8 +369,8 @@ export class RepositoriesComponent implements OnInit {
       languageColor: '#3572A5',
       updatedAt: '2026-06-10',
       visibility: 'Internal',
-      htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance/tree/main/services/chatbot-service',
-      cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+      htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance/tree/main/services/chatbot-service',
+      cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
       topics: ['fastapi', 'mongodb', 'nlp', 'ai-chatbot'],
       lastCommitMsg: 'Login access to all faculty and chatbot widget integration',
       lastCommitAuthor: 'Huzaifa1102',
@@ -388,8 +388,8 @@ export class RepositoriesComponent implements OnInit {
       languageColor: '#68a063',
       updatedAt: '2026-06-08',
       visibility: 'Internal',
-      htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance/tree/main/services/financial-service',
-      cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+      htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance/tree/main/services/financial-service',
+      cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
       topics: ['payments', 'invoices', 'express', 'postgresql'],
       lastCommitMsg: 'Added payment notification plugin and ledger queries',
       lastCommitAuthor: 'Huzaifa1102',
@@ -407,8 +407,8 @@ export class RepositoriesComponent implements OnInit {
       languageColor: '#3178c6',
       updatedAt: '2026-06-09',
       visibility: 'Internal',
-      htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance/tree/main/services/student-service',
-      cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+      htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance/tree/main/services/student-service',
+      cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
       topics: ['student-registration', 'enrollment-plugin', 'express'],
       lastCommitMsg: 'Updated student file controller and status plugins',
       lastCommitAuthor: 'Huzaifa1102',
@@ -426,8 +426,8 @@ export class RepositoriesComponent implements OnInit {
       languageColor: '#3178c6',
       updatedAt: '2026-06-07',
       visibility: 'Internal',
-      htmlUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance/tree/main/services/scheduling-service',
-      cloneUrl: 'https://github.com/D-A-D-group-3/novacampus-alliance.git',
+      htmlUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance/tree/main/services/scheduling-service',
+      cloneUrl: 'https://github.com/Huzaifa1102/Novacampus-Alliance.git',
       topics: ['timetable', 'room-scheduling', 'logistics'],
       lastCommitMsg: 'Implemented room availability map API',
       lastCommitAuthor: 'Huzaifa1102',
@@ -444,7 +444,7 @@ export class RepositoriesComponent implements OnInit {
 
   syncGitHubData() {
     this.isSyncing = true;
-    this.http.get<any>('https://api.github.com/repos/D-A-D-group-3/novacampus-alliance').subscribe({
+    this.http.get<any>('https://api.github.com/repos/Huzaifa1102/Novacampus-Alliance').subscribe({
       next: (data) => {
         if (data) {
           this.mainRepo.stars = data.stargazers_count || this.mainRepo.stars;
