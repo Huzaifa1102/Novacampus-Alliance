@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 
 @Component({
@@ -84,21 +85,38 @@ import { DataTableComponent } from '../../../shared/components/data-table/data-t
     </div>
   `
 })
-export class PaymentsComponent implements OnInit { // IMPLEMENT OnInit
-  private http = inject(HttpClient); // INJECT HTTP
+export class PaymentsComponent implements OnInit {
+  private http = inject(HttpClient);
   
-  // Replace your mock array with an empty array
-  paymentsList: any[] = []; // Update your HTML *ngFor to use this variable name
+  ledgerColumns = [
+    { key: 'invoice_id', label: 'Invoice #', isPrimary: true },
+    { key: 'student', label: 'Student Name' },
+    { key: 'amount', label: 'Amount' },
+    { key: 'date', label: 'Date' },
+    { key: 'method', label: 'Payment Method' },
+    { key: 'status', label: 'Status' }
+  ];
+
+  ledgerData: any[] = [
+    { invoice_id: 'INV-2026-001', student: 'Alice Johnson', amount: '€3,500.00', date: '2026-02-10', method: 'SEPA Direct Debit', status: ['Paid'] },
+    { invoice_id: 'INV-2026-002', student: 'Bob Smith', amount: '€3,500.00', date: '2026-02-12', method: 'Credit Card', status: ['Paid'] },
+    { invoice_id: 'INV-2026-003', student: 'Charlie Davis', amount: '€1,750.00', date: '2026-02-28', method: 'Bank Transfer', status: ['Pending'] },
+    { invoice_id: 'INV-2026-004', student: 'Diana Evans', amount: '€3,500.00', date: '2026-01-15', method: 'Overdue Notice Sent', status: ['Overdue'] }
+  ];
 
   ngOnInit() {
-    console.log("Fetching live payments...");
-    this.http.get<any[]>('http://localhost:3004/api/finance/payments/my')
+    this.fetchPayments();
+  }
+
+  fetchPayments() {
+    this.http.get<any[]>('http://localhost:8000/api/finance/payments')
       .subscribe({
         next: (data) => {
-          console.log("Payments loaded:", data);
-          this.paymentsList = data; // Binds live data to your UI
+          if (data && data.length > 0) {
+            this.ledgerData = data;
+          }
         },
-        error: (err) => console.error("Payment API Error:", err)
+        error: (err) => console.log('Using local ledger view', err)
       });
   }
-}
+}

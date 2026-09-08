@@ -84,7 +84,7 @@ export class TimetableComponent implements OnInit {
   gridMap: Record<string, any> = {};
 
   ngOnInit() {
-    this.http.get<any>('http://localhost:8000/api/students/STU001/timetable')
+    this.http.get<any>('http://localhost:8000/api/schedules/my')
       .subscribe({
         next: (res) => this.buildGridMap(res.data || []),
         error: (err) => console.error('Failed to load timetable', err)

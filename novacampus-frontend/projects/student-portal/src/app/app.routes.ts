@@ -17,6 +17,7 @@ import { PaymentsComponent } from './features/admin/payments/payments.component'
 import { TimetableComponent } from './features/student/timetable/timetable.component';
 import { GradesComponent } from './features/student/grades/grades.component';
 import { DocumentsComponent } from './features/student/documents/documents.component';
+import { RepositoriesComponent } from './features/student/repositories/repositories.component';
 
 // --- Teacher ---
 import { ScheduleComponent } from './features/teacher/schedule/schedule.component';
@@ -26,6 +27,7 @@ import { AttendanceComponent } from './features/teacher/attendance/attendance.co
 export const routes: Routes = [
   { path: '', redirectTo: 'management/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'repositories', component: RepositoriesComponent },
 
   // Management Routes (Left unguarded for platform overview analytics)
   { path: 'management/dashboard', component: DashboardComponent },
@@ -42,14 +44,13 @@ export const routes: Routes = [
   { path: 'student/timetable', component: TimetableComponent, canActivate: [authGuard('student')] },
   { path: 'student/grades', component: GradesComponent, canActivate: [authGuard('student')] },
   { path: 'student/documents', component: DocumentsComponent, canActivate: [authGuard('student')] },
+  { path: 'student/repositories', component: RepositoriesComponent, canActivate: [authGuard('student')] },
 
   // Teacher Routes (Secured with your 'teacher' role evaluation)
   { path: 'teacher/schedule', component: ScheduleComponent, canActivate: [authGuard('teacher')] },
   { path: 'teacher/grading', component: GradingComponent, canActivate: [authGuard('teacher')] },
   { path: 'teacher/attendance', component: AttendanceComponent, canActivate: [authGuard('teacher')] },
   
-  // Temporary login path to capture your guard's redirect safely for now
-
   // Fallback
   { path: '**', redirectTo: 'management/dashboard' }
 ];

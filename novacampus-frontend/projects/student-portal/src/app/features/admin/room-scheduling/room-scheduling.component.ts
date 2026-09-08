@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 
 @Component({
@@ -83,21 +84,30 @@ import { DataTableComponent } from '../../../shared/components/data-table/data-t
     </div>
   `
 })
-export class RoomSchedulingComponent {
+export class RoomSchedulingComponent implements OnInit {
+  private http = inject(HttpClient);
   
   roomColumns = [
-    { key: 'roomId', label: 'Room Name', isPrimary: true },
-    { key: 'building', label: 'Building & Floor' },
-    { key: 'type', label: 'Type' },
+    { key: 'room_name', label: 'Room Name', isPrimary: true },
+    { key: 'room_type', label: 'Type' },
     { key: 'capacity', label: 'Capacity' },
     { key: 'status', label: 'Current Status' }
   ];
 
-  roomData = [
-    { roomId: 'Amphitheater A', building: 'Building 1 - Ground', type: 'Amphitheater', capacity: '250', status: ['In Use'] },
-    { roomId: 'Amphitheater B', building: 'Building 1 - Ground', type: 'Amphitheater', capacity: '120', status: ['Available'] },
-    { roomId: 'Lab C2', building: 'Building 2 - Floor 3', type: 'Computer Lab', capacity: '30', status: ['In Use'] },
-    { roomId: 'Lab C4', building: 'Building 2 - Floor 3', type: 'Computer Lab', capacity: '30', status: ['Maintenance'] },
-    { roomId: 'Room 205', building: 'Building 1 - Floor 2', type: 'Seminar Room', capacity: '45', status: ['Available'] }
-  ];
+  roomData: any[] = [];
+
+  ngOnInit() {
+    this.http.get<any>('http://localhost:8000/api/schedules/rooms')
+      .subscribe({
+        next: (res) => {
+          this.roomData = (res.data || []).map((r: any) => ({
+            room_name: r.room_name,
+            room_type: r.room_type,
+            capacity: r.capacity,
+            status: ['Available']
+          }));
+        },
+        error: (err) => console.error('Failed to load rooms', err)
+      });
+  }
 }

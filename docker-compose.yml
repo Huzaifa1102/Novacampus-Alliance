@@ -130,7 +130,7 @@ services:
     depends_on:
       - postgres
 
-chatbot-service:
+  chatbot-service:
     build:
       context: ./services/chatbot-service
     container_name: nca_chatbot_service
@@ -146,6 +146,51 @@ chatbot-service:
       - "3006:3006"
     depends_on:
       mongodb:
+        condition: service_healthy
+
+  financial-service:
+    build:
+      context: ./services/financial-service
+    container_name: nca_financial_service
+    environment:
+      - DATABASE_URL=postgresql://novacampus:novacampus123@postgres:5432/novacampus_db
+      - PORT=3004
+      - RABBITMQ_URL=amqp://novacampus:${RABBITMQ_PASSWORD}@rabbitmq:5672
+    ports:
+      - "3004:3004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  scheduling-service:
+    build:
+      context: ./services/scheduling-service
+    container_name: nca_scheduling_service
+    environment:
+      - DATABASE_URL=postgresql://novacampus:novacampus123@postgres:5432/novacampus_db
+      - PORT=3003
+      - RABBITMQ_URL=amqp://novacampus:${RABBITMQ_PASSWORD}@rabbitmq:5672
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  reporting-service:
+    build:
+      context: ./services/reporting-service
+    container_name: nca_reporting_service
+    environment:
+      - DATABASE_URL=postgresql://novacampus:novacampus123@postgres:5432/novacampus_db
+      - PORT=3005
+    ports:
+      - "3005:3005"
+    depends_on:
+      postgres:
         condition: service_healthy
 
 volumes:

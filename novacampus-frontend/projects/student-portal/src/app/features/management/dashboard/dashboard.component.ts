@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
         <div class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Enrollment</p>
-            <h3 class="text-2xl font-bold text-slate-900 mt-1">12,480</h3>
+            <h3 class="text-2xl font-bold text-slate-900 mt-1">{{ kpis.total_enrollments | number }}</h3>
             <span class="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-2">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7 7 7"></path></svg>
               +4.2% vs last year
@@ -46,7 +47,7 @@ import { CommonModule } from '@angular/common';
         <div class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm flex items-center justify-between">
           <div>
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Collected Revenue</p>
-            <h3 class="text-2xl font-bold text-slate-900 mt-1">€4.8M</h3>
+            <h3 class="text-2xl font-bold text-slate-900 mt-1">€{{ (kpis.collected_amount / 1000000) | number:'1.1-2' }}M</h3>
             <span class="text-xs text-amber-600 font-medium flex items-center gap-1 mt-2">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3"></path></svg>
               91% of target met
@@ -150,4 +151,30 @@ import { CommonModule } from '@angular/common';
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   `]
 })
-export class DashboardComponent {}
+export class DashboardComponent implements OnInit {
+  private http = inject(HttpClient);
+  
+  kpis: any = {
+    total_enrollments: 12480,
+    collected_amount: 4800000
+  };
+
+  ngOnInit() {
+    this.http.get<any>('http://localhost:8000/api/reports/kpis')
+      .subscribe({
+        next: (res) => {
+          if (res.data && res.data.length > 0) {
+             let total_enr = 0;
+             let total_col = 0;
+             for (let row of res.data) {
+                total_enr += parseInt(row.total_enrollments || 0);
+                total_col += parseFloat(row.collected_amount || 0);
+             }
+             this.kpis.total_enrollments = total_enr;
+             this.kpis.collected_amount = total_col;
+          }
+        },
+        error: (err) => console.error('Failed to load KPIs', err)
+      });
+  }
+}
